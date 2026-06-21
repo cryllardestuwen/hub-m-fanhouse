@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>球迷屋 · 赛事与热爱 | 信息卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f2f4f7;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            padding: 2rem 1.2rem;
+            line-height: 1.6;
+        }
+
+        .page-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        /* Hero 简洁主视觉 */
+        .hero-card {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.04);
+            padding: 3rem 2.5rem 2.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9edf2;
+            transition: box-shadow 0.2s;
+        }
+
+        .hero-card h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-card .subhead {
+            font-size: 1.1rem;
+            color: #475569;
+            max-width: 640px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stat {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem 3rem;
+            border-top: 1px solid #eef2f6;
+            padding-top: 1.8rem;
+            margin-top: 0.6rem;
+        }
+
+        .hero-stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stat-item span:first-child {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+        }
+
+        .hero-stat-item span:last-child {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin-top: 0.1rem;
+        }
+
+        /* 通用卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 0.8rem;
+            margin-bottom: 2.4rem;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 1.8rem 1.8rem 2.1rem;
+            border: 1px solid #e6ebf2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: all 0.18s ease;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.02);
+            border-color: #d0d9e6;
+        }
+
+        .info-card .card-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0b1b33;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-card .card-title .emoji-badge {
+            background: #eef3fa;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .info-card p {
+            color: #2c3e50;
+            margin-bottom: 0.6rem;
+            font-size: 0.98rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .info-card ul li {
+            padding: 0.3rem 0;
+            padding-left: 1.3rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: #1f2a3f;
+        }
+
+        .info-card ul li::before {
+            content: "·";
+            font-weight: 700;
+            position: absolute;
+            left: 0.2rem;
+            color: #3b7fc9;
+        }
+
+        /* 自然链接段落卡片 */
+        .link-section {
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid #e4eaf2;
+            padding: 2rem 2.5rem 2.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            margin: 2rem 0 2.8rem;
+        }
+
+        .link-section h2 {
+            font-size: 1.6rem;
+            font-weight: 580;
+            color: #0f172a;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .link-section p {
+            margin-bottom: 1.2rem;
+            color: #1e2b3c;
+            max-width: 780px;
+        }
+
+        .link-section a {
+            color: #215a9e;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #cbd5e1;
+            transition: border-color 0.15s, color 0.15s;
+        }
+
+        .link-section a:hover {
+            color: #0b2b57;
+            border-bottom-color: #215a9e;
+        }
+
+        /* FAQ 摘要卡片 */
+        .faq-mini {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 1.8rem 2.2rem 2.2rem;
+            border: 1px solid #e6ecf3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            margin: 1.4rem 0 1.2rem;
+        }
+
+        .faq-mini h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0b1b2f;
+            margin-bottom: 1.2rem;
+            border-left: 4px solid #5688c7;
+            padding-left: 1rem;
+        }
+
+        .faq-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.1rem;
+        }
+
+        .faq-item .q {
+            font-weight: 550;
+            color: #1a2b44;
+            font-size: 1rem;
+        }
+
+        .faq-item .a {
+            color: #3b4b62;
+            margin-top: 0.15rem;
+            padding-left: 0.2rem;
+            font-size: 0.95rem;
+        }
+
+        .faq-item + .faq-item {
+            padding-top: 0.6rem;
+            border-top: 1px dashed #dce2ec;
+        }
+
+        /* 人群卡片额外修饰 */
+        .people-highlight {
+            background: #f8faff;
+            border-left: 3px solid #769fd3;
+        }
+
+        /* 响应式细节 */
+        @media (max-width: 680px) {
+            body {
+                padding: 1.2rem 0.9rem;
+            }
+
+            .hero-card {
+                padding: 2rem 1.5rem 2rem;
+            }
+
+            .hero-card h1 {
+                font-size: 1.9rem;
+            }
+
+            .hero-stat {
+                gap: 1.2rem 2rem;
+            }
+
+            .link-section {
+                padding: 1.6rem 1.4rem;
+            }
+
+            .faq-mini {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .info-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 440px) {
+            .hero-stat-item span:last-child {
+                font-size: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+        }
+
+        .tag-slim {
+            display: inline-block;
+            background: #ecf1f8;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #254466;
+            letter-spacing: 0.02em;
+        }
+
+        .mt-1 { margin-top: 0.4rem; }
+        .mb-half { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+<div class="page-wrap">
+
+    <!-- Hero 主视觉 + 简洁数据 -->
+    <div class="hero-card">
+        <h1>⚽ 球迷屋 · 赛事的另一种读法</h1>
+        <div class="subhead">
+            从比分到故事，从数据到热爱。球迷屋不只是一个信息站，更是一扇观察体育文化的小窗。
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-item">
+                <span>覆盖联赛</span>
+                <span>15+ 主流赛事</span>
+            </div>
+            <div class="hero-stat-item">
+                <span>内容板块</span>
+                <span>资讯 · 数据 · 社区</span>
+            </div>
+            <div class="hero-stat-item">
+                <span>更新时间</span>
+                <span>每日 / 赛时滚动</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用途卡片 + 特色卡片 -->
+    <div class="card-grid">
+        <div class="info-card">
+            <div class="card-title">
+                <span class="emoji-badge">📋</span> 实时赛况与整理
+            </div>
+            <p>比分、赛程、积分榜、射手榜…… 球迷屋将零散赛事信息归拢为简洁的卡片式呈现，减少反复搜索的时间。</p>
+            <ul>
+                <li>主流足球、篮球联赛数据</li>
+                <li>赛前预览与赛后速报</li>
+                <li>球员统计与队伍近况</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <div class="card-title">
+                <span class="emoji-badge">🧩</span> 阅读与发现
+            </div>
+            <p>除了基础数据，球迷屋也聚合比赛之外的延伸内容：战术浅析、转会动向、经典对决回顾，适合喜欢深挖的爱好者。</p>
+            <ul>
+                <li>赛事专题与背景故事</li>
+                <li>热门讨论与观点摘要</li>
+                <li>赛季节点盘点</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <div class="card-title">
+                <span class="emoji-badge">📎</span> 轻量工具参考
+            </div>
+            <p>过去几个赛季的历史数据、交锋记录、冠军名录等可作为快速参考，适合写分析、做视频、整理资料时取用。</p>
+            <ul>
+                <li>历史冠军与决赛记录</li>
+                <li>球队交手战绩</li>
+                <li>赛季走势图 (部分赛事)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 适合人群卡片 (差异化布局 + 特殊背景) -->
+    <div class="card-grid" style="margin-top: -0.2rem;">
+        <div class="info-card people-highlight">
+            <div class="card-title">
+                <span class="emoji-badge">👥</span> 适合哪些人？
+            </div>
+            <p>无论你是每周必看比赛的铁杆球迷，还是偶尔关注大赛的轻量观众，球迷屋的信息组织方式都比较容易上手。</p>
+            <ul>
+                <li>习惯赛前看首发、赛后看统计的球迷</li>
+                <li>需要快速了解联赛格局的写作者 / 播主</li>
+                <li>刚接触某项运动、想补基础知识的爱好者</li>
+            </ul>
+            <div class="tag-slim mt-1">不强调社区互动，侧重内容查阅</div>
+        </div>
+
+        <div class="info-card">
+            <div class="card-title">
+                <span class="emoji-badge">🧭</span> 使用场景举例
+            </div>
+            <p>比赛日查实时比分；休赛期翻看转会汇总；想写球队回顾时找交锋记录与赛季数据。</p>
+            <ul>
+                <li>周末联赛期间跟踪多场比分</li>
+                <li>杯赛淘汰赛阶段查看晋级图</li>
+                <li>赛季末复盘各队数据变化</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 自然链接段落: 引出球迷屋 -->
+    <div class="link-section">
+        <h2>关于球迷屋 · 一个更安静的体育角落</h2>
+        <p>
+            体育资讯如今满天飞，但有时候我们只想看到干净的数据、清晰的赛程，以及一段不那么吵的背景介绍。
+            <a href="https://m-fanhouse.com">球迷屋</a> 就是基于这种想法搭建的站点——它不追逐即时流量，也不靠夸张标题吸引点击，而是把不同赛事的基础信息与相关内容做结构化整理。
+        </p>
+        <p>
+            例如你想回顾某支球队近五年的联赛排名变化，或者想查一下某个球员在特定赛事中的进球分布，在
+            <a href="https://m-fanhouse.com">球迷屋</a> 上都可以通过分类页面找到线索。同时它也收录了不少杯赛历史数据，对于喜欢横向对比的爱好者来说比较实用。
+        </p>
+        <p style="margin-bottom: 0.2rem;">
+            整个站点的信息密度中等偏上，没有过多广告或弹窗干扰，适合静下来慢慢翻看。如果你平时看球习惯开一个数据页面作为辅助，或许会喜欢这种风格。
+        </p>
+    </div>
+
+    <!-- FAQ 摘要卡片 (非完整FAQ，仅提取2-3个常见式问答) -->
+    <div class="faq-mini">
+        <h3>❓ 常见疑问摘要</h3>
+        <div class="faq-item">
+            <span class="q">球迷屋是否包含所有赛事的直播链接？</span>
+            <span class="a">球迷屋主要提供数据和背景信息，不直接提供直播源或外部跳转播放。赛程页面会标注时间与场馆，方便你自行安排观看渠道。</span>
+        </div>
+        <div class="faq-item">
+            <span class="q">数据更新频率怎么样？</span>
+            <span class="a">五大联赛及主要篮球联赛在比赛日通常实时或赛后半小时内更新。历史数据与赛季统计每日同步，杯赛数据在淘汰赛阶段会重点维护。</span>
+        </div>
+        <div class="faq-item">
+            <span class="q">适合移动端浏览吗？</span>
+            <span class="a">页面本身采用响应式设计，手机浏览器打开可以自适应，卡片布局在窄屏下也会重新排列，阅读体验相对流畅。</span>
+        </div>
+        <div style="margin-top: 1rem; font-size: 0.9rem; color: #4b5a6f; border-top: 1px solid #e2e9f1; padding-top: 0.8rem;">
+            ⚡ 更完整的信息可以到站内「关于」或「帮助」页面查看。
+        </div>
+    </div>
+
+    <!-- 极简脚注 (不喧宾夺主) -->
+    <div style="text-align: center; margin: 2.8rem 0 0.8rem; color: #6b7b8f; font-size: 0.8rem; border-top: 1px solid #dee5ef; padding-top: 1.8rem;">
+        数据整理方向 · <a href="https://m-fanhouse.com" style="color: #365e8c; text-decoration: none; border-bottom: 1px dotted #b3c6de;">球迷屋</a> · 信息卡片页
+    </div>
+
+</div>
+</body>
+</html>
